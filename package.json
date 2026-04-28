@@ -4,15 +4,16 @@
   "description": "YouTube Video Downloader - Built by K Tec Solutions",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "netlify dev",
+    "dev": "netlify dev",
+    "build:functions": "netlify-lambda build netlify/functions",
+    "serve:functions": "netlify-lambda serve netlify/functions"
   },
   "dependencies": {
-    "cors": "^2.8.6",
-    "express": "^4.22.1"
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "netlify-lambda": "^2.0.15"
   },
   "engines": {
     "node": ">=16.0.0"

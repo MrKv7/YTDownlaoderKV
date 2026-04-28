@@ -14,14 +14,15 @@ A powerful YouTube video downloader built with Node.js, Express, and yt-dlp. Dow
 
 ## Tech Stack
 
-- **Backend:** Node.js + Express
-- **Engine:** yt-dlp
+- **Backend:** Netlify Serverless Functions
+- **Engine:** ytdl-core (pure JavaScript)
 - **Frontend:** HTML5, CSS3, JavaScript
+- **Hosting:** Netlify (Free tier, no credit card required)
 
 ## Prerequisites
 
 - Node.js >= 16.0.0
-- yt-dlp binary (auto-installed on Render)
+- Netlify CLI (for local testing): `npm install -g netlify-cli`
 
 ## Local Development
 
@@ -30,41 +31,41 @@ A powerful YouTube video downloader built with Node.js, Express, and yt-dlp. Dow
    npm install
    ```
 
-2. **Download yt-dlp:**
-   - Windows: Download `yt-dlp.exe` from [GitHub Releases](https://github.com/yt-dlp/yt-dlp/releases/latest)
-   - Place it in the project root folder
-
-3. **Run the server:**
+2. **Run the Netlify dev server:**
    ```bash
-   # Development mode (with auto-reload)
    npm run dev
-   
-   # Production mode
-   npm start
    ```
 
-4. **Open in browser:**
+3. **Open in browser:**
    ```
    http://localhost:3000
    ```
 
-## Deploy to Render.com
+## Deploy to Netlify (FREE - No Credit Card Required)
 
 1. Push this repository to GitHub
-2. Sign up at [Render.com](https://render.com)
-3. Click "New +" → "Web Service"
-4. Connect your GitHub repository
-5. Configure:
-   - **Name:** your-app-name
-   - **Environment:** Node
-   - **Build Command:** `npm install`
-   - **Start Command:** `npm start`
-   - **Plan:** Free
-6. Add environment variable:
-   - `PORT`: `3000`
-7. Click "Create Web Service"
+2. Sign up at [Netlify.com](https://app.netlify.com/signup)
+3. Click **"Add new site"** → **"Import an existing project"**
+4. Connect to GitHub and select your repository
+5. Build settings (auto-detected from netlify.toml):
+   - **Publish directory:** `public`
+   - **Functions directory:** `netlify/functions`
+6. Click **"Deploy site"**
 
-Your app will be live at: `https://your-app-name.onrender.com`
+Your app will be live at: `https://your-site-name.netlify.app`
+
+### Manual Deploy (Alternative)
+
+```bash
+# Install Netlify CLI
+npm install -g netlify-cli
+
+# Login to Netlify
+netlify login
+
+# Deploy
+netlify deploy --prod
+```
 
 ## API Endpoints
 
@@ -91,7 +92,11 @@ YTDownLoader/
 │   ├── index.html
 │   ├── style.css
 │   └── app.js
-├── server.js            # Express server
+├── netlify/
+│   └── functions/       # Serverless functions
+│       ├── info.js      # Get video info
+│       └── download.js  # Download video
+├── netlify.toml         # Netlify configuration
 ├── package.json         # Dependencies
 ├── .gitignore          # Git ignore rules
 └── README.md           # Project documentation
