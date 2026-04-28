@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+ytdownloader/node_modules/
+
+# yt-dlp binary (platform-specific, will be installed on Render)
+yt-dlp.exe
+yt-dlp
+bin/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build output
+dist/
+build/
+
+# Temporary files
+temp/
+tmp/
+downloads/

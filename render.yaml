@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: ktec-youtube-downloader
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: PORT
+        value: 3000
+    autoDeploy: true

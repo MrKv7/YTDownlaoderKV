@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Download YouTube videos free in any quality — 144p to 4K. Built by K Tec Solutions." />
+  <title>YT Downloader | K Tec By Kv</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- CANVAS PARTICLES -->
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header class="header" id="header">
+  <div class="header-inner">
+
+    <button class="logo" onclick="App.reset()" aria-label="Home">
+      <div class="logo-icon"><i class="fab fa-youtube"></i></div>
+      <div class="logo-words">
+        <span class="logo-name"><em>YT Downloader</em></span>
+        <span class="logo-by"> <a href="https://portfoliomekv7.netlify.app/"> K Tec By Kavindu Nilanga Lyr</a></span>
+      </div>
+    </button>
+
+    <nav class="desk-nav" id="deskNav">
+      <a href="#hero"         class="dnav active">Home</a>
+      <a href="#how-it-works" class="dnav">How It Works</a>
+      <a href="#features"     class="dnav">Features</a>
+      <a href="#faq"          class="dnav">FAQ</a>
+    </nav>
+
+    <div class="hdr-right">
+      <div class="live-pill"><span class="live-dot"></span>Live</div>
+      <div class="srv-pill" id="srvPill">
+        <span class="srv-dot" id="srvDot"></span>
+        <span id="srvTxt">Checking…</span>
+      </div>
+      <button class="burger" id="burger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+  </div>
+  <nav class="mob-nav" id="mobNav">
+    <a href="#hero"         class="mnav" onclick="App.closeMobNav()">Home</a>
+    <a href="#how-it-works" class="mnav" onclick="App.closeMobNav()">How It Works</a>
+    <a href="#features"     class="mnav" onclick="App.closeMobNav()">Features</a>
+    <a href="#faq"          class="mnav" onclick="App.closeMobNav()">FAQ</a>
+  </nav>
+</header>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="hero-body">
+
+    <div class="hero-chip">
+      <i class="fas fa-bolt"></i>
+      Free &nbsp;·&nbsp; Fast &nbsp;·&nbsp; No Registration
+    </div>
+
+    <h1 class="hero-h1">
+      Download
+      <span class="grad-text">YouTube Videos</span><br>
+      In Any Quality
+    </h1>
+
+    <p class="hero-p">
+      Paste any YouTube link and download in&nbsp;
+      <strong>144p · 480p · 720p · 1080p · 4K</strong><br>
+      or extract <strong>MP3 Audio</strong> — 100&nbsp;% Free, No limits.
+    </p>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <div class="search-box" id="searchBox">
+        <span class="s-yt-ico"><i class="fab fa-youtube"></i></span>
+        <input
+          type="url" id="urlInput" class="s-input"
+          placeholder="Paste YouTube URL here…  e.g. https://youtube.com/watch?v=xxxxx"
+          autocomplete="off" spellcheck="false"
+        />
+        <button class="s-clear" id="sClear" onclick="App.clearUrl()" title="Clear" style="display:none">
+          <i class="fas fa-times"></i>
+        </button>
+        <button class="s-btn" id="sBtn" onclick="App.fetchInfo()">
+          <span class="s-btn-on"><i class="fas fa-search"></i> Fetch Video</span>
+          <span class="s-btn-load" style="display:none"><i class="fas fa-circle-notch fa-spin"></i> Fetching…</span>
+        </button>
+      </div>
+      <div class="search-hints">
+        <span><i class="fas fa-check-circle"></i> youtube.com/watch?v=…</span>
+        <span><i class="fas fa-check-circle"></i> youtu.be/…</span>
+        <span><i class="fas fa-check-circle"></i> youtube.com/shorts/…</span>
+      </div>
+    </div>
+    
+    
+    <!-- STATS -->
+    <!-- <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-n counter" data-target="1500000">0</div>
+        <div class="stat-l">Videos Downloaded</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-n counter" data-target="9">0</div>
+        <div class="stat-l">Quality Options</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-n counter" data-target="100">0</div>
+        <div class="stat-l">% Free Forever</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-n live-n" id="liveUsers">312</div>
+        <div class="stat-l">Live Users</div>
+      </div> -->
+
+
+    </div> 
+
+  </div><!-- /hero-body -->
+
+  <!-- Floating decoration cards -->
+  <div class="floaters" aria-hidden="true">
+    <div class="floater f1"><i class="fas fa-film"></i><span>4K Ultra HD</span></div>
+    <div class="floater f2"><i class="fas fa-music"></i><span>MP3 Audio</span></div>
+    <div class="floater f3"><i class="fas fa-bolt"></i><span>Fast &amp; Free</span></div>
+  </div>
+</section>
+
+<!-- ══════════════ ALERT ══════════════ -->
+<div class="alert-wrap" id="alertWrap" style="display:none" role="alert" aria-live="polite">
+  <div class="alert-box" id="alertBox">
+    <i class="alert-ico" id="alertIco"></i>
+    <div class="alert-text">
+      <strong id="alertTitle"></strong>
+      <span   id="alertMsg"></span>
+    </div>
+    <button class="alert-close" onclick="App.closeAlert()"><i class="fas fa-times"></i></button>
+  </div>
+</div>
+
+<!-- ══════════════ LOADING ══════════════ -->
+<section class="sec-loading" id="secLoading" style="display:none">
+  <div class="load-card">
+    <div class="rings-wrap">
+      <div class="ring rg1"></div>
+      <div class="ring rg2"></div>
+      <div class="ring rg3"></div>
+      <div class="ring-core"><i class="fab fa-youtube"></i></div>
+    </div>
+    <h3 class="load-title">Fetching Video Information</h3>
+    <p  class="load-sub">Powered by yt-dlp engine — please wait…</p>
+    <div class="load-steps">
+      <div class="lstep" id="ls1"><i class="fas fa-link"></i><span>Validating URL</span></div>
+      <div class="lstep" id="ls2"><i class="fas fa-server"></i><span>Connecting to YouTube</span></div>
+      <div class="lstep" id="ls3"><i class="fas fa-film"></i><span>Reading Video Formats</span></div>
+      <div class="lstep" id="ls4"><i class="fas fa-check-circle"></i><span>Building Download Options</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ RESULT ══════════════ -->
+<section class="sec-result" id="secResult" style="display:none">
+  <div class="result-inner">
+
+    <!-- Video Info Card -->
+    <div class="vcard">
+      <div class="vcard-body">
+
+        <!-- Thumbnail -->
+        <div class="thumb-wrap">
+          <img id="vThumb" src="" alt="Thumbnail" class="thumb-img" loading="lazy" />
+          <div class="thumb-overlay">
+            <div class="thumb-play"><i class="fab fa-youtube"></i></div>
+          </div>
+          <div class="thumb-dur"  id="vDur">0:00</div>
+          <div class="thumb-hd"><i class="fas fa-star"></i> HD</div>
+        </div>
+
+        <!-- Meta -->
+        <div class="vmeta">
+          <div class="vmeta-top">
+            <div class="ch-row">
+              <div class="ch-av"><i class="fas fa-user"></i></div>
+              <div>
+                <span class="ch-name" id="vChannel">—</span>
+                <span class="ch-ver"><i class="fas fa-check-circle"></i> YouTube Channel</span>
+              </div>
+            </div>
+            <span class="yt-pill"><i class="fab fa-youtube"></i> YouTube</span>
+          </div>
+
+          <h2 class="v-title" id="vTitle">—</h2>
+
+          <div class="v-chips">
+            <div class="chip"><i class="fas fa-eye"></i><span id="vViews">0</span></div>
+            <div class="chip"><i class="fas fa-thumbs-up"></i><span id="vLikes">N/A</span></div>
+            <div class="chip"><i class="fas fa-clock"></i><span id="vDurChip">0:00</span></div>
+            <div class="chip"><i class="fas fa-calendar-alt"></i><span id="vDate">N/A</span></div>
+            <div class="chip"><i class="fas fa-comment-dots"></i><span id="vComments">N/A</span></div>
+          </div>
+
+          <div class="v-desc" id="vDesc"><p>—</p></div>
+
+          <div class="v-url-row">
+            <i class="fas fa-link"></i>
+            <span class="v-url-txt" id="vUrl">—</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Download Panel -->
+    <div class="dl-panel">
+
+      <div class="dl-panel-top">
+        <div class="dl-panel-title">
+          <div class="dl-ico-box"><i class="fas fa-download"></i></div>
+          <div>
+            <h3>Select Quality &amp; Download</h3>
+            <p><span id="qCount" class="q-count">0</span> formats available</p>
+          </div>
+        </div>
+        <div class="q-tabs">
+          <button class="q-tab active" id="tab-all"   onclick="App.filterQ('all')"><i class="fas fa-border-all"></i> All</button>
+          <button class="q-tab"        id="tab-video" onclick="App.filterQ('video')"><i class="fas fa-film"></i> Video</button>
+          <button class="q-tab"        id="tab-audio" onclick="App.filterQ('audio')"><i class="fas fa-music"></i> Audio</button>
+        </div>
+      </div>
+
+      <div class="q-grid" id="qGrid"><!-- injected --></div>
+
+    </div>
+
+    <!-- Progress Panel -->
+    <div class="prog-panel" id="progPanel" style="display:none">
+      <div class="prog-head">
+        <div class="prog-ico" id="progIco"><i class="fas fa-download"></i></div>
+        <div class="prog-meta">
+          <h4 id="progTitle">Downloading…</h4>
+          <p  id="progSub">Please wait…</p>
+        </div>
+        <div class="prog-q-tag" id="progTag">—</div>
+      </div>
+
+      <div class="prog-bar-row">
+        <div class="prog-track">
+          <div class="prog-fill"   id="progFill"></div>
+          <div class="prog-shimmer"></div>
+        </div>
+        <div class="prog-pct" id="progPct">0%</div>
+      </div>
+
+      <div class="prog-stats">
+        <div class="pstat"><i class="fas fa-tachometer-alt"></i><span class="pstat-l">Speed</span><span class="pstat-v" id="pSpeed">— MB/s</span></div>
+        <div class="pstat"><i class="fas fa-download"></i><span class="pstat-l">Downloaded</span><span class="pstat-v" id="pDone">0 MB</span></div>
+        <div class="pstat"><i class="fas fa-hdd"></i><span class="pstat-l">Total Size</span><span class="pstat-v" id="pTotal">—</span></div>
+        <div class="pstat"><i class="fas fa-hourglass-half"></i><span class="pstat-l">Time Left</span><span class="pstat-v" id="pEta">—</span></div>
+      </div>
+
+      <div class="prog-steps">
+        <div class="pstep" id="ps1"><i class="fas fa-plug"></i><span>Connecting</span></div>
+        <div class="pstep" id="ps2"><i class="fas fa-stream"></i><span>Streaming</span></div>
+        <div class="pstep" id="ps3"><i class="fas fa-save"></i><span>Saving</span></div>
+        <div class="pstep" id="ps4"><i class="fas fa-check-circle"></i><span>Complete</span></div>
+      </div>
+    </div>
+
+    <!-- Action Row -->
+    <div class="result-actions">
+      <button class="act-btn secondary" onclick="App.reset()">
+        <i class="fas fa-redo"></i> Download Another Video
+      </button>
+      <a id="watchYT" href="#" target="_blank" rel="noopener" class="act-btn primary">
+        <i class="fab fa-youtube"></i> Watch on YouTube
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ HOW IT WORKS ══════════════ -->
+<section class="sec-how" id="how-it-works">
+  <div class="sec-wrap">
+    <div class="sec-chip"><i class="fas fa-magic"></i> Simple Process</div>
+    <h2 class="sec-h2">How It Works</h2>
+    <p class="sec-p">Download any YouTube video in just 3 easy steps</p>
+    <div class="how-grid">
+      <div class="how-card appear">
+        <!-- <div class="how-n">#</div> -->
+        <div class="how-ico"><i class="fas fa-copy"></i></div>
+        <h3>Copy the URL</h3>
+        <p>Open YouTube, find your video and copy the URL from the address bar or the Share button.</p>
+      </div>
+      <div class="how-arr appear"><i class="fas fa-chevron-right"></i></div>
+      <div class="how-card appear">
+        <!-- <div class="how-n">#</div> -->
+        <div class="how-ico"><i class="fas fa-paste"></i></div>
+        <h3>Paste &amp; Fetch</h3>
+        <p>Paste the link into the search box and click <strong>Fetch Video</strong> to load all video details.</p>
+      </div>
+      <div class="how-arr appear"><i class="fas fa-chevron-right"></i></div>
+      <div class="how-card appear">
+        <!-- <div class="how-n">#</div> -->
+        <div class="how-ico"><i class="fas fa-download"></i></div>
+        <h3>Choose &amp; Download</h3>
+        <p>Pick your quality — 144p to 4K or MP3 — and watch the live real-time download progress.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FEATURES ══════════════ -->
+<section class="sec-feat" id="features">
+  <div class="sec-wrap">
+    <div class="sec-chip"><i class="fas fa-star"></i> Why Choose Us</div>
+    <h2 class="sec-h2">Powerful Features</h2>
+    <p class="sec-p">Everything you need for the perfect download experience</p>
+    <div class="feat-grid">
+      <div class="feat-card appear"><div class="feat-ico c-purple"><i class="fas fa-bolt"></i></div><h3>Lightning Fast</h3><p>Powered by yt-dlp — the world's fastest and most reliable YouTube download engine available.</p></div>
+      <div class="feat-card appear"><div class="feat-ico c-red"   ><i class="fas fa-film"></i></div><h3>All Qualities</h3><p>144p through 4K Ultra HD — download in the exact same quality that's available on YouTube.</p></div>
+      <div class="feat-card appear"><div class="feat-ico c-blue"  ><i class="fas fa-music"></i></div><h3>MP3 Audio</h3><p>Extract and download the audio track as a high-quality MP3 from any public YouTube video.</p></div>
+      <div class="feat-card appear"><div class="feat-ico c-green" ><i class="fas fa-shield-alt"></i></div><h3>Safe &amp; Clean</h3><p>No malware, no popup ads, no account needed. Just safe, clean and reliable downloads every time.</p></div>
+      <div class="feat-card appear"><div class="feat-ico c-orange"><i class="fas fa-signal"></i></div><h3>Live Progress</h3><p>Real-time download progress bar with speed, file size and estimated time remaining displayed.</p></div>
+      <div class="feat-card appear"><div class="feat-ico c-pink"  ><i class="fas fa-mobile-alt"></i></div><h3>All Devices</h3><p>Fully responsive — works perfectly on phones, tablets, laptops and desktop computers.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FAQ ══════════════ -->
+<section class="sec-faq" id="faq">
+  <div class="sec-wrap">
+    <div class="sec-chip"><i class="fas fa-question-circle"></i> FAQ</div>
+    <h2 class="sec-h2">Frequently Asked Questions</h2>
+    <p class="sec-p">Everything you need to know</p>
+    <div class="faq-grid">
+      <div class="faq-card appear" onclick="App.toggleFaq(this)">
+        <div class="faq-q"><span>Is this service completely free?</span><i class="fas fa-plus faq-ico"></i></div>
+        <div class="faq-a"><p>Yes — 100% free. No subscriptions, hidden fees, or accounts required. Download as much as you want, forever.</p></div>
+      </div>
+      <div class="faq-card appear" onclick="App.toggleFaq(this)">
+        <div class="faq-q"><span>What video qualities can I download?</span><i class="fas fa-plus faq-ico"></i></div>
+        <div class="faq-a"><p>Any quality that YouTube offers for that specific video — from 144p all the way to 4K Ultra HD, plus audio-only MP3.</p></div>
+      </div>
+      <div class="faq-card appear" onclick="App.toggleFaq(this)">
+        <div class="faq-q"><span>Can I download from any YouTube channel?</span><i class="fas fa-plus faq-ico"></i></div>
+        <div class="faq-a"><p>Yes — any publicly available video from any channel. Private or age-restricted content is not supported.</p></div>
+      </div>
+      <div class="faq-card appear" onclick="App.toggleFaq(this)">
+        <div class="faq-q"><span>How long does a download take?</span><i class="fas fa-plus faq-ico"></i></div>
+        <div class="faq-a"><p>It depends on your internet speed and the file size. Our live progress bar shows real-time speed and ETA.</p></div>
+      </div>
+      <div class="faq-card appear" onclick="App.toggleFaq(this)">
+        <div class="faq-q"><span>Is there a download limit?</span><i class="fas fa-plus faq-ico"></i></div>
+        <div class="faq-a"><p>No hard limits. Download as many videos as you need. Please respect copyright laws and creators' rights.</p></div>
+      </div>
+      <div class="faq-card appear" onclick="App.toggleFaq(this)">
+        <div class="faq-q"><span>Which browsers are supported?</span><i class="fas fa-plus faq-ico"></i></div>
+        <div class="faq-a"><p>All modern browsers — Chrome, Firefox, Edge, Safari, Opera — on both desktop and mobile devices.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <div class="footer-logo"><i class="fab fa-youtube"></i><span>YT<strong>Downloader</strong></span></div>
+        <p class="footer-tag">Powered by K Tec Solutions.
+        <br> Developed By Kavindu Nilanga Lyr.</p> 
+        
+        <div class="footer-socials">
+        <a href="https://github.com/MrKv7" class="f-soc" aria-label="GitHub"><i class="fab fa-github"></i></a> 
+          
+        </div>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <a href="#hero">Home</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#features">Features</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Formats</h4>
+          <a href="#">MP4 Video</a>
+          <a href="#">WebM Video</a>
+          <a href="#">MP3 Audio</a>
+          <a href="#">4K / 1080p / 720p / 360p</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:info@ktecsolutions.com"><i class="fas fa-envelope"></i> kavindunilanga468@gmail.com</a>
+          <a href="https://github.com/MrKv7"><i class="fas fa-globe"></i> Github </a>
+          <a href="https://discord.gg/hdK8986CHJ"><i class="fas fa-headset"></i> Discord Server</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-btm">
+
+      <p class="f-copy">&copy; <span id="fyear"></span> YTDownloader. All rights reserved By Kavindu Nilanga Lyr.</p>
+
+      <!-- ★ K TEC SOLUTIONS CREDITS BADGE ★ -->
+      <div class="credits-badge">
+        <div class="credits-ico"><i class="fas fa-code"></i></div>
+        <div class="credits-text">
+          
+          <strong class="credits-name"><i class="fas fa-bolt"> <a href="https://portfoliomekv7.netlify.app/"> K Tec Solutions</a></i> </strong>
+        </div>
+        
+      </div>
+
+      <!-- Live Clock -->
+      <div class="live-clock">
+        <span class="lc-dot"></span>
+        <span class="lc-time" id="lcTime">00:00:00</span>
+        <span class="lc-tz"   id="lcTz">UTC</span>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- Toast stack -->
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
